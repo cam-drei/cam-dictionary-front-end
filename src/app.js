@@ -1,8 +1,14 @@
 import React from 'react'
-import { Button, Icon } from 'semantic-ui-react'
-import './app.css';
+import { Button } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
+// import './app.css';
 import TextAreaAutoSize from 'react-textarea-autosize';
 import {Container,Form,Header,Segment} from "semantic-ui-react";
+// import { Input } from 'semantic-ui-react'
+import { Image } from 'semantic-ui-react'
+// import { Dimmer} from 'semantic-ui-react'
+
+
 
 
 class App extends React.Component {
@@ -13,86 +19,87 @@ class App extends React.Component {
 
   return (
     <div>
-      <header>
-       
+      <header >
         
       </header>
+
       <body >
+        <ul className="navigation">
+          <li><a className = "navigation-active" href='#home'>Home</a></li>
+          <li><a href='#about'>About</a></li>
+          <li><a href='#products'>Products</a></li>
+          <li><a href='#contact'>Contact</a></li>
+        </ul>
+        <p className="app-title">
+            Welcome to Cham Dictionary
+        </p>
+        <div className="background-image">
+
+          <Image src='./image/thap cham trang den.jpg' fluid />
+
+          <Container className='container' >
+            <Segment.Group>
+              
+              <Segment>
+                <Header as="h3">
+                  <Button.Group className='button' floated='left' >
+                    <Button className='button-active'>Rumi</Button>
+                    <Button >Akhar Thrah</Button>
+                    <Button >Vietnamese</Button>
+                  </Button.Group>
+                  <br></br>
+
+                  {/* <Button className='button'><Icon color='white' name='chevron down' /></Button> */}
+                </Header>
+                {/* <Input icon={{ name: 'search', circular: true, link: true }} placeholder='Search...' /> */}
+
+                <Form role="search">
+                  <form action="#" method="get">
+                    <Form.Group for ="s">
+                      <input type="search" name="s" id="s" placeholder="Search..."
+                        onChange={e => this.setState({ value: e.target.value })}
+                        value={this.state.value}/>
+                        <Button id='button'><Icon name='search' /></Button>
+                        <Button onClick={() => this.setState({ value: "" })} id='button'><Icon name='eraser' /></Button>
+                    </Form.Group>
+                  </form>
+                </Form>
+              </Segment>
+              
+
+              <Segment as={Form}>
+              
+                {/* <br></br>
+                <br></br> */}
+                <TextAreaAutoSize
+                  placeholder='This is the result'
+                  onHeightChange={(height, instance) =>
+                    console.log(height, instance.rowCount)
+                  }
+                  useCacheForDOMMeasurements
+                />
+              </Segment>
+            </Segment.Group>
+          </Container>
+
+        </div>
+        
       
-      <ul class="navigation">
-        <li><a class = "navigation-active" href='#home'>Home</a></li>
-        <li><a href='#about'>About</a></li>
-        <li><a href='#products'>Products</a></li>
-        <li><a href='#contact'>Contact</a></li>
-      </ul>
-      <p class="App-title">
-          Welcome to Cham Dictionary
-      </p>
       
-      {/* <br></br> */}
-
-      <Container>
-        <Segment.Group>
-
-          <Segment>
-            <Header as="h3">
-              <Button.Group floated='left'>
-                <Button class = "navigation-active" color='blue'>Rumi</Button>
-                <Button color='blue'>Akhar Thrah</Button>
-                <Button color='blue'>Vietnamese</Button>
-              </Button.Group>
-
-              <Button color='black'>
-                <Icon color='white' name='exchange' />
-              </Button>
-            </Header>
-    
-            <Form>
-              <Form.Field
-                control={TextAreaAutoSize}
-                // label="About"
-                placeholder='Input your text'
-                onChange={e => this.setState({ value: e.target.value })}
-                // useCacheForDOMMeasurements
-                value={this.state.value}
-                style={{ boxSizing: "border-box" }}
-              />
-
-              <Form.Button
-                content="Clear"
-                onClick={() => this.setState({ value: "" })}
-                color = 'black'
-              />
-            </Form>
-          </Segment>
-
-          <Segment as={Form}>
-            <Header as="h3">
-              <Button.Group floated='left'>
-                <Button color='blue'>Rumi</Button>
-                <Button color='blue'>Akhar Thrah</Button>
-                <Button color='blue'>Vietnamese</Button>
-              </Button.Group> 
-            </Header>
-            <br></br>
-            <br></br>
-            <TextAreaAutoSize
-              placeholder='This is the result'
-              onHeightChange={(height, instance) =>
-                console.log(height, instance.rowCount)
-              }
-              useCacheForDOMMeasurements
-            />
-          </Segment>
-        </Segment.Group>
-      </Container>
 
       {/* <div class = "text-area">
           <TextAreaAutoSize style={{minHeight: 200, maxHeight: 500, width: '50%'}} placeholder='Input your text' />
           <TextAreaAutoSize style={{minHeight: 200, maxHeight: 500, width: '50%'}} placeholder='This is the result' />
       </div> */}
-      
-      
+      {/* <Form.Field
+                control={TextAreaAutoSize}
+                placeholder='Input your text'
+                onChange={e => this.setState({ value: e.target.value })}
+                value={this.state.value}
+                style={{ boxSizing: "border-box" }}
+              /> */}
+      {/* <Button type="submit" title="Search this word now" content="Search" color = 'black'/> */}
+      {/* <Button onClick={() => this.setState({ value: "" })} content="Clear" color = 'black'/> */}
       </body>
     </div>
     

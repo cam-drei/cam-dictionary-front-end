@@ -1,0 +1,77 @@
+
+.app-title {
+  text-align: center;
+  /* align-items: center; */
+  font-size: 25px;
+  color: black;
+}
+
+
+.navigation {
+  list-style: none;
+  margin: 0; 
+  background: black;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+}
+
+.navigation a {
+  text-decoration: none;
+  display: block;
+  padding: 1em;
+  color: white;
+}
+.navigation a:hover {
+  background: darkgrey;
+  color: black;
+}
+
+.navigation-active {
+  background-color: #500;
+}
+
+.flex {  
+  display: flex;
+
+}
+
+.background-image {
+  /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./image/thap cham trang den.jpg"); */
+  height: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+ 
+
+.ui.segment {
+  background: transparent;
+}
+
+.ui.container {
+  background: transparent;
+  text-align: center;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+}
+
+.ui.button {
+  background: black;
+  color: white;
+  text-align: center;
+}
+
+.ui.button:hover {
+  background: darkgrey;
+  color: black;
+  /* text-align: center; */
+}
+
+.ui.button-active {
+  background: #500;
+}
