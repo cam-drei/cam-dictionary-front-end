@@ -9,38 +9,80 @@ import { Grid } from 'semantic-ui-react'
 import { Image } from 'semantic-ui-react'
 
 import _ from 'lodash'
-import faker from 'faker'
+// import faker from 'faker'
 import { Component } from 'react'
 import { Search, Container} from 'semantic-ui-react'
 
 
 const initialState = { isLoading: false, results: [], value: '' }
 
-const source = _.times(5, () => ({
-  title: faker.company.companyName(),
-  description: faker.company.catchPhrase(),
-  image: faker.internet.avatar(),
-  price: faker.finance.amount(0, 100, 2, '$'),
-}))
+// const source = _.times(5, () => ({
+//   title: faker.company.companyName(),
+//   description: faker.company.catchPhrase(),
+//   image: faker.internet.avatar(),
+//   price: faker.finance.amount(0, 100, 2, '$'),
+// }))
 
-class SearchExampleStandard extends Component {    state = initialState
+class App extends Component {    state = initialState
 
-  handleResultSelect = (e, { result }) => this.setState({ value: result.title })
+  handleResultSelect = (e, { result }) => this.setState({ value: result.rumi })
 
   handleSearchChange = (e, { value }) => {
     this.setState({ isLoading: true, value })
 
-    setTimeout(() => {
-      if (this.state.value.length < 1) return this.setState(initialState)
+    // console.log('handleSearchChange', value)
 
-      const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-      const isMatch = result => re.test(result.title)
+    fetch(`http://localhost:3001/words?search=${value}`)
+      .then(
+        (result) => {
+          // console.log('result', result);
 
-      this.setState({
-        isLoading: false,
-        results: _.filter(source, isMatch),
-      })
-    }, 300)
+          this.setState({
+            isLoading: false,
+            results: result,
+          })
+
+          this.setState({
+            isLoaded: true,
+            items: result.items
+          });
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          // console.log('errors', error);
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+
+
+    // setTimeout(() => {
+    // //   if (this.state.value.length < 1) return this.setState(initialState)
+
+    // //   const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
+    // //   const isMatch = result => re.test(result.title)
+
+    //   // this.setState({
+    //   //   isLoading: false,
+    //   //   results: _.filter(source, isMatch),
+    //   // })
+
+    //   // this.setState({
+    //   //   isLoading: false,
+    //   //   results: [{
+    //   //     title: "title A",
+    //   //     description: "description A",
+    //   //   },
+    //   //   {
+    //   //     title: "title B",
+    //   //     description: "description B",
+    //   //   }],
+    //   // })
+    // }, 700)
   }
 
   render() {
@@ -48,44 +90,49 @@ class SearchExampleStandard extends Component {    state = initialState
 
     return (
       <body >
-          <ul className="navigation">
-            <li><a className = "navigation-active" href='#home'>Home</a></li>
-            <li><a href='#about'>About</a></li>
-            <li><a href='#products'>Products</a></li>
-            <li><a href='#contact'>Contact</a></li>
-          </ul>
-          <p className="app-title">
-              Welcome to Cham Dictionary
-          </p>
-          <div className="background-image">
+        <ul className="navigation">
+          <li><a className = "navigation-active" href='#home'>Home</a></li>
+          <li><a href='#about'>About</a></li>
+          <li><a href='#products'>Products</a></li>
+          <li><a href='#contact'>Contact</a></li>
+        </ul>
 
-            <Image src='./image/thap cham my son1.jpg' fluid />
+        <p className="app-title">
+            Welcome to Cham Dictionary
+        </p>
+        
+        <div className="background-image">
 
-            <Container className='container' >
-              <Grid className='input'>
-                <Button onClick={() => this.setState({ value: "" })} className='button'><Icon name='eraser' /></Button>
-                <Search placeholder="Search for word..."
-                  loading={isLoading}
-                  onResultSelect={this.handleResultSelect}
-                  onSearchChange={_.debounce(this.handleSearchChange, 500, {
-                    leading: true,
-                  })}
-                  results={results}
-                  value={value}
-                  {...this.props}
-                  onChange={e => this.setState({ clear: e.target.clear })}
-                  clear={this.state.clear}
-                />
+          <Image src='./image/thap cham my son1.jpg' fluid />
 
-              </Grid>
-            </Container>
+          <Container className='container' >
+            <Grid className='input'>
+              {/* <Icon onClick={() => this.setState({ value: "" })} circular name="close" /> */}
 
-          </div>
-          </body>
+              <Button onClick={() => this.setState({ value: "" })} className='button'><Icon name='eraser' /></Button>
+              <Search placeholder="Search for word..."
+                loading={isLoading}
+                onResultSelect={this.handleResultSelect}
+                onSearchChange={_.debounce(this.handleSearchChange, 500, {leading: true,})}
+                results={results}
+                value={value}
+                {...this.props}
+                onChange={e => this.setState({ clear: e.target.clear })}
+                clear={this.state.clear}
+              />
+
+            </Grid>
+          </Container>
+
+        </div>
+      </body>
       
     )
   }
 }
+
+export default App;
+
 
 // class App extends React.Component {
 //   state = { value: "" };
@@ -176,7 +223,6 @@ class SearchExampleStandard extends Component {    state = initialState
 // }
 
 
-export default SearchExampleStandard;
 
 
 
