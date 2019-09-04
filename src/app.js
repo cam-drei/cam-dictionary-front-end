@@ -18,100 +18,24 @@ import axios from 'axios';
 
 const initialState = { isLoading: false, results: [], value: '' }
 
-// const source = _.times(5, () => ({
-//   title: faker.company.companyName(),
-//   description: faker.company.catchPhrase(),
-//   image: faker.internet.avatar(),
-//   price: faker.finance.amount(0, 100, 2, '$'),
-// }))
-
 class App extends Component {    state = initialState
 
-  handleResultSelect = (e, { result }) => this.setState({ value: result.rumi })
+  handleResultSelect = (e, { result }) => this.setState({ value: result.title })
 
   handleSearchChange = (e, { value }) => {
     this.setState({ isLoading: true, value })
 
     
-    //   axios.get(`http://localhost:3001/words?search=${value}`, {
-    //     headers: { 
-    //       // 'x-apikey': '59a7ad19f5a9fa0808f11931',
-    //       'Access-Control-Allow-Origin' : '*',
-    //       'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    //       'Access-Control-Allow-Credentials':true 
-    //     },
-    // responseType: 'json',
-    //  }).then(response => {
-    //   this.setState({ tableData: response.data });
-    // });
-    
 // debugger;
       axios.get(`http://localhost:3001/words?search=${value}`)
         .then(response => {
-          this.setState({ results: response.data });
-          // const results = response.data;
-          // this.setState({ results });
+          this.setState({ 
+            isLoading: false,
+            results: JSON.parse(response.data.result)
+          });
         })
         .catch(error => console.log(error));
-    
 
-
-    // fetch(`http://localhost:3001/words?search=${value}`, { mode: 'no-cors'})
-    // .then(function(response) {
-    //   debugger;
-    //   return response.json();
-    // })
-    // .then(function(myJson) {
-    //   debugger;
-    //   console.log(JSON.stringify(myJson));
-    // });
-      // .then(
-      //   (data) => {
-
-      //     debugger;
-      //     this.setState({
-      //       isLoading: false,
-      //       results: data.result,
-      //     })
-      //     console.log(data.body);
- 
-      //   },
-      //   // Note: it's important to handle errors here
-      //   // instead of a catch() block so that we don't swallow
-      //   // exceptions from actual bugs in components.
-      //   (error) => {
-      //     console.log('errors', error);
-      //     this.setState({
-      //       isLoaded: true,
-      //       error
-      //     });
-      //   }
-      // )
-
-
-    // setTimeout(() => {
-    // //   if (this.state.value.length < 1) return this.setState(initialState)
-
-    // //   const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-    // //   const isMatch = result => re.test(result.title)
-
-    //   // this.setState({
-    //   //   isLoading: false,
-    //   //   results: _.filter(source, isMatch),
-    //   // })
-
-    //   // this.setState({
-    //   //   isLoading: false,
-    //   //   results: [{
-    //   //     title: "title A",
-    //   //     description: "description A",
-    //   //   },
-    //   //   {
-    //   //     title: "title B",
-    //   //     description: "description B",
-    //   //   }],
-    //   // })
-    // }, 700)
   }
 
   render() {
