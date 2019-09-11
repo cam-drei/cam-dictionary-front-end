@@ -1,14 +1,19 @@
 import React, { Component } from "react";
+import { Container, Header} from 'semantic-ui-react'
+
  
 class Contact extends Component {
   render() {
     return (
-      <div>
-        <h2>Contact</h2>
-        <p>The easiest thing to do is post on
+        <Container text>
+        <Header as='h2' style={{ textAlign: "center" }}>Contact</Header>
+        <p>The easiest thing to do is post on
         our <a href="http://forum.kirupa.com">forums</a>.
         </p>
-      </div>
+
+        </Container>
+
+      
     );
   }
 }
