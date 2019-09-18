@@ -12,8 +12,6 @@ class Contact extends Component {
         </p>
 
         </Container>
-
-      
     );
   }
 }

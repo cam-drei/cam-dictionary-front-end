@@ -3,7 +3,7 @@ import React from 'react'
 // import { Icon } from 'semantic-ui-react'
 // // import TextAreaAutoSize from 'react-textarea-autosize';
 // import {Container,Form} from "semantic-ui-react";
-// import {Segment} from 'semantic-ui-react'
+// import {Segm ent} from 'semantic-ui-react'
 // import { Grid } from 'semantic-ui-react'
 // import { Image } from 'semantic-ui-react'
 // import _ from 'lodash'
@@ -28,7 +28,7 @@ class App extends Component {
   render() {
 
     return (
-      <body >
+      <>
       <HashRouter>
 
         <ul className="navigation">
@@ -58,7 +58,7 @@ class App extends Component {
         </div>
       </HashRouter>
 
-      </body>
+      </>
       
     )
   }

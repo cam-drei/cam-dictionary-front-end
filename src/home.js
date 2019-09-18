@@ -7,27 +7,30 @@ import {Segment} from 'semantic-ui-react'
 // import { Grid } from 'semantic-ui-react'
 import { Image } from 'semantic-ui-react'
 import _ from 'lodash'
-// import { Component } from 'react'
 import { Search} from 'semantic-ui-react'
 import {Header} from 'semantic-ui-react'
 import axios from 'axios';
-// import './styles/app.css'
 
 
  
 const initialState = { isLoading: false, results: [], value: '' }
 const resultRenderer = ({ title }) => <Header as='h3' content={title} />
 
-class Home extends Component {    state = initialState
+class Home extends Component {    
+  
+  state = initialState
 
-  handleResultSelect = (e, { result}) => this.setState({
-    title: result.title, akharThrah: result.description.akharThrah, source: result.description.source, 
-    vietnamese: result.description.vietnamese, french: result.description.french, pronunciation: result.description.pronunciation, fullDescription: result.description.fullDescription})
+  handleResultSelect = (e, { result}) => {
+    this.setState({
+      // test: JSON.parse(result.description.fullDescription),
+      title: result.title, akharThrah: result.description.akharThrah, source: result.description.source, 
+      vietnamese: result.description.vietnamese, french: result.description.french, english: result.description.english, pronunciation: result.description.pronunciation, fullDescription: JSON.parse(result.description.fullDescription)});
+  }
+    
 
   handleSearchChange = (e, { value }) => {
     this.setState({ isLoading: true, value })
     this.setState({ title: '' })
-
     axios.get(`http://localhost:3001/words?search=${value}`)
       .then(response => {
         this.setState({ 
@@ -37,14 +40,18 @@ class Home extends Component {    state = initialState
       })
       .catch(error => console.log(error));
   }
- 
+
 
   render() {
     const { isLoading, value, results } = this.state
-
+    // const abc = (lists) => {
+    //   var test = (lists || [1,2,4]).map((item, key) =>
+    //     <li>{item}</li>
+    //   );
+    //   return test;
+    // }
     return (
-    //   <body >
-
+      <>
         <div className="background-image">
 
           <Image src='./image/thap cham my son3.jpg' fluid />
@@ -57,7 +64,6 @@ class Home extends Component {    state = initialState
             <Segment.Group>
             <Segment> 
               {/* <Icon onClick={() => this.setState({ value: "" })} circular name="close" /> */}
-
               <Button onClick={() => this.setState({ results: [], value: "", title: '' })} className='button'><Icon name='eraser' /></Button>
               <Search placeholder="Search for word..."
                 loading={isLoading}
@@ -66,7 +72,7 @@ class Home extends Component {    state = initialState
                 results={results}
                 value={value}
                 resultRenderer={resultRenderer}
-                {...this.props}
+                // {...this.props}
                 // onChange={e => this.setState({ clear: e.target.clear })}
                 // clear={this.state.clear}
               ></Search>
@@ -75,14 +81,24 @@ class Home extends Component {    state = initialState
             <Segment className ={this.state.title ? 'box result' : 'result-hide'}>
               <h2 style={{ textAlign: "center" }}>This is the result</h2>
     
-              <table style={{width:"25%", textAlign: "left"}}>
+              <table style={{width:"100%", textAlign: "left"}}>
+                <tbody>
+                  
                 <tr style={{ color: "red" }}>
-                  <th><h2>Rumi</h2></th>
+                  <th style={{width:"130px"}}><h2>Rumi</h2></th>
                   <th><h2>{this.state.title}</h2></th>
+                </tr>
+                <tr>
+                    <th>Pronunciation</th>
+                    <th>{this.state.pronunciation}</th>
                 </tr>
                 <tr>
                     <th>Akhar Thrah</th>
                     <th>{this.state.akharThrah}</th>
+                </tr>
+                <tr>
+                    <th>Source</th>
+                    <th>{this.state.source}</th>
                 </tr>
                 <tr>
                     <th>Viet Name</th>
@@ -93,21 +109,21 @@ class Home extends Component {    state = initialState
                     <th>{this.state.french}</th>
                 </tr>
                 <tr>
-                    <th>Pronunciation</th>
-                    <th>{this.state.pronunciation}</th>
+                    <th>English</th>
+                    <th style={{ color: "#993300" }}>{this.state.english}</th>
                 </tr>
                 <tr>
                     <th>Full Description</th>
-                    <th>{this.state.fullDescription}</th>
+                    <th>
+                      <ul>
+                        {/* {console.log('test', this.state.test)} */}
+                        {(this.state.fullDescription || []).map((item, index) => <li key={index}>{item.list}</li>)}
+                      </ul>
+                    </th>
                 </tr>
-                <tr>
-                    <th>Source</th>
-                    <th>{this.state.source}</th>
-                </tr>
+                </tbody>
               </table>
-            </Segment>
-            
-            
+            </Segment> 
             </Segment.Group>
             {/* </Grid> */}
             
@@ -115,7 +131,7 @@ class Home extends Component {    state = initialState
 
         </div>
       
-    //   </body>
+      </>
       
     )
   }
