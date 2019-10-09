@@ -47,7 +47,7 @@ class Home extends Component {
   handleSearchChange = (e, { value }) => {
     this.setState({ title: "", isLoading: true, value });
     axios
-      .get(`${process.env.BACKEND_HOST}words?search=${value}`)
+      .get(`${process.env.REACT_APP_BACKEND_HOST}words?search=${value}`)
       .then((response) => {
         this.setState({
           isLoading: false,
@@ -59,7 +59,7 @@ class Home extends Component {
 
   handleChange = () => {
     axios
-      .get(`${process.env.BACKEND_HOST}words?search=${this.props.match.params.id}`)
+      .get(`${process.env.REACT_APP_BACKEND_HOST}words?search=${this.props.match.params.id}`)
       .then((response) => {
         const results = JSON.parse(response.data.result);
         const result = results[0];
