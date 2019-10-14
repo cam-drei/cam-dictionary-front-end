@@ -29,49 +29,34 @@ class Home extends Component {
     window.history.pushState(null, null, `./#/words/${result.title}`);
 
     this.setCurrentResult(result);
-
-    // this.setState({
-    //   title: result.title,
-    //   ...result.description,
-    //   fullDescription: JSON.parse(result.description.fullDescription)
-    // });
   };
 
   handleSearchChange = (e, { value }) => {
     this.setState({ title: "", isLoading: true, value });
     axios
       .get(`${process.env.REACT_APP_BACKEND_HOST}words?search=${value}`)
-      .then((response) => {
+      .then(response => {
         this.setState({
           isLoading: false,
           results: JSON.parse(response.data.result)
         });
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   };
 
   handleChange = () => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_HOST}words?search=${this.props.match.params.id}`)
-      .then((response) => {
+      .get(
+        `${process.env.REACT_APP_BACKEND_HOST}words?search=${this.props.match.params.id}`
+      )
+      .then(response => {
         const results = JSON.parse(response.data.result);
         this.setCurrentResult(results[0]);
-        // const result = results[0];
-        // this.setState({
-        //   title: result.title,
-        //   akharThrah: result.description.akharThrah,
-        //   source: result.description.source,
-        //   vietnamese: result.description.vietnamese,
-        //   french: result.description.french,
-        //   english: result.description.english,
-        //   pronunciation: result.description.pronunciation,
-        //   fullDescription: JSON.parse(result.description.fullDescription)
-        // });
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   };
 
-  setCurrentResult = (result) => {
+  setCurrentResult = result => {
     this.setState({
       title: result.title,
       ...result.description,
@@ -94,7 +79,9 @@ class Home extends Component {
             <Segment.Group>
               <Segment>
                 <Button
-                  onClick={() => this.setState({ results: [], value: "", title: "" })}
+                  onClick={() =>
+                    this.setState({ results: [], value: "", title: "" })
+                  }
                   className="button"
                 >
                   <Icon name="eraser" />
@@ -112,7 +99,9 @@ class Home extends Component {
                 />
               </Segment>
 
-              <Segment className={this.state.title ? "box result" : "result-hide"}>
+              <Segment
+                className={this.state.title ? "box result" : "result-hide"}
+              >
                 <h2 style={{ textAlign: "center" }}>This is the result</h2>
 
                 <table style={{ width: "100%", textAlign: "left" }}>
@@ -140,57 +129,63 @@ class Home extends Component {
                       <th>{this.state.source}</th>
                     </tr>
                     <tr>
-                      <th>{this.state.vietnamese ? "Viet Nam" : ""}</th>
-                      <th>{this.state.vietnamese}</th>
-                    </tr>
-                    <tr>
-                      <th>{this.state.french ? "French" : ""}</th>
-                      <th>{this.state.french}</th>
-                    </tr>
-                    <tr>
-                      <th>{this.state.english ? "English" : ""}</th>
-                      <th style={{ color: "#993300" }}>{this.state.english}</th>
-                    </tr>
-                    <tr>
                       <th>
-                        {this.state.fullDescription && this.state.fullDescription.length
+                        {this.state.fullDescription &&
+                        this.state.fullDescription.length
                           ? "Full Description"
                           : ""}
                       </th>
+
                       <th>
-                        <ol>
-                          {(this.state.fullDescription || []).map((item, index) => (
-                            <li key={index}>
+                        {(this.state.fullDescription || []).map(
+                          (item, index) => (
+                            <p key={index}>
                               <Divider />
+                              <span>
+                                {this.state.fullDescription.length > 1
+                                  ? index + 1 + ". "
+                                  : ""}
+                              </span>
                               <strong>{item.meaning.wordClasses}</strong> &nbsp;
                               {item.meaning.rumi ? " " : ""} {item.meaning.rumi}
                               {item.meaning.akharThrah ? " " : ""}{" "}
-                              <span className="cam-font">{item.meaning.akharThrah}</span>
+                              <span className="cam-font">
+                                {item.meaning.akharThrah}
+                              </span>
+                              &nbsp;
                               {item.meaning.source} &nbsp;
                               {item.meaning.vietnamese}
-                              {item.meaning.french ? " = " : " "} {item.meaning.french} &nbsp;
-                              {item.meaning.pronunciation} &nbsp;
-                              {item.meaning.fullDescription}
-                              <p style={{ color: "#993300" }}>{item.meaning.english}</p>
+                              {item.meaning.french ? " = " : " "}{" "}
+                              {item.meaning.french}
+                              <p style={{ color: "#993300" }}>
+                                {item.meaning.english}
+                              </p>
                               <Divider />
                               <ul>
                                 {item.list.map((item, index) => (
                                   <li key={index}>
-                                    <span style={{ fontStyle: "italic" }}>{item.rumi}</span> &nbsp;
-                                    <span className="cam-font">{item.akharThrah}</span> &nbsp;
+                                    <span style={{ fontStyle: "italic" }}>
+                                      {item.rumi}
+                                    </span>{" "}
+                                    &nbsp;
+                                    <span className="cam-font">
+                                      {item.akharThrah}
+                                    </span>{" "}
+                                    &nbsp;
                                     {item.source} &nbsp;
                                     {item.vietnamese}
-                                    {item.french ? " = " : " "} {item.french} &nbsp;
-                                    {item.english ? " - " : " "}
-                                    <span style={{ color: "#993300" }}>{item.english}</span> &nbsp;
-                                    {item.pronunciation} &nbsp;
-                                    {item.fullDescription}
+                                    {item.french ? " = " : " "} {item.french}{" "}
+                                    &nbsp;
+                                    {item.english ? " = " : " "}
+                                    <span style={{ color: "#993300" }}>
+                                      {item.english}
+                                    </span>{" "}
                                   </li>
                                 ))}
                               </ul>
-                            </li>
-                          ))}
-                        </ol>
+                            </p>
+                          )
+                        )}
                       </th>
                     </tr>
                   </tbody>
