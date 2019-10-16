@@ -12,7 +12,7 @@ import {
 import _ from "lodash";
 import axios from "axios";
 
-const resultRenderer = ({ title }) => <Header as="h3" content={title} />;
+const resultRenderer = ({ rumi }) => <Header as="h3" content={rumi} />;
 
 class Home extends Component {
   constructor(props) {
@@ -26,13 +26,13 @@ class Home extends Component {
   }
 
   handleResultSelect = (e, { result }) => {
-    window.history.pushState(null, null, `./#/words/${result.title}`);
+    window.history.pushState(null, null, `./#/words/${result.rumi}`);
 
     this.setCurrentResult(result);
   };
 
   handleSearchChange = (e, { value }) => {
-    this.setState({ title: "", isLoading: true, value });
+    this.setState({ rumi: "", isLoading: true, value });
     axios
       .get(`${process.env.REACT_APP_BACKEND_HOST}words?search=${value}`)
       .then(response => {
@@ -58,9 +58,7 @@ class Home extends Component {
 
   setCurrentResult = result => {
     this.setState({
-      title: result.title,
-      ...result.description,
-      fullDescription: JSON.parse(result.description.fullDescription)
+      ...result
     });
   };
 
@@ -80,7 +78,7 @@ class Home extends Component {
               <Segment>
                 <Button
                   onClick={() =>
-                    this.setState({ results: [], value: "", title: "" })
+                    this.setState({ results: [], value: "", rumi: "" })
                   }
                   className="button"
                 >
@@ -88,6 +86,7 @@ class Home extends Component {
                 </Button>
                 <Search
                   placeholder="Search for word..."
+                  size="huge"
                   loading={isLoading}
                   onResultSelect={this.handleResultSelect}
                   onSearchChange={_.debounce(this.handleSearchChange, 500, {
@@ -100,7 +99,7 @@ class Home extends Component {
               </Segment>
 
               <Segment
-                className={this.state.title ? "box result" : "result-hide"}
+                className={this.state.rumi ? "box result" : "result-hide"}
               >
                 <h2 style={{ textAlign: "center" }}>This is the result</h2>
 
@@ -111,7 +110,7 @@ class Home extends Component {
                         <h2>Rumi</h2>
                       </th>
                       <th>
-                        <h2>{this.state.title}</h2>
+                        <h2>{this.state.rumi}</h2>
                       </th>
                     </tr>
                     <tr>
@@ -130,62 +129,54 @@ class Home extends Component {
                     </tr>
                     <tr>
                       <th>
-                        {this.state.fullDescription &&
-                        this.state.fullDescription.length
+                        {this.state.extendeds && this.state.extendeds.length
                           ? "Full Description"
                           : ""}
                       </th>
 
                       <th>
-                        {(this.state.fullDescription || []).map(
-                          (item, index) => (
-                            <p key={index}>
-                              <Divider />
-                              <span>
-                                {this.state.fullDescription.length > 1
-                                  ? index + 1 + ". "
-                                  : ""}
-                              </span>
-                              <strong>{item.meaning.wordClasses}</strong> &nbsp;
-                              {item.meaning.rumi ? " " : ""} {item.meaning.rumi}
-                              {item.meaning.akharThrah ? " " : ""}{" "}
-                              <span className="cam-font">
-                                {item.meaning.akharThrah}
-                              </span>
-                              &nbsp;
-                              {item.meaning.source} &nbsp;
-                              {item.meaning.vietnamese}
-                              {item.meaning.french ? " = " : " "}{" "}
-                              {item.meaning.french}
-                              <p style={{ color: "#993300" }}>
-                                {item.meaning.english}
-                              </p>
-                              <Divider />
-                              <ul>
-                                {item.list.map((item, index) => (
-                                  <li key={index}>
-                                    <span style={{ fontStyle: "italic" }}>
-                                      {item.rumi}
-                                    </span>{" "}
-                                    &nbsp;
-                                    <span className="cam-font">
-                                      {item.akharThrah}
-                                    </span>{" "}
-                                    &nbsp;
-                                    {item.source} &nbsp;
-                                    {item.vietnamese}
-                                    {item.french ? " = " : " "} {item.french}{" "}
-                                    &nbsp;
-                                    {item.english ? " = " : " "}
-                                    <span style={{ color: "#993300" }}>
-                                      {item.english}
-                                    </span>{" "}
-                                  </li>
-                                ))}
-                              </ul>
-                            </p>
-                          )
-                        )}
+                        {(this.state.extendeds || []).map((item, index) => (
+                          <p key={index}>
+                            <Divider />
+                            <span>
+                              {this.state.extendeds.length > 1
+                                ? index + 1 + ". "
+                                : ""}
+                            </span>
+                            <strong>{item.wordClasses}</strong> &nbsp;
+                            {item.rumi ? " " : ""} {item.rumi}
+                            {item.akharThrah ? " " : ""}{" "}
+                            <span className="cam-font">{item.akharThrah}</span>
+                            &nbsp;
+                            {item.source} &nbsp;
+                            {item.vietnamese}
+                            {item.french ? " = " : " "} {item.french}
+                            <p style={{ color: "#993300" }}>{item.english}</p>
+                            <Divider />
+                            <ul>
+                              {this.state.examples.map((item, index) => (
+                                <li key={index}>
+                                  <span style={{ fontStyle: "italic" }}>
+                                    {item.rumi}
+                                  </span>{" "}
+                                  &nbsp;
+                                  <span className="cam-font">
+                                    {item.akharThrah}
+                                  </span>{" "}
+                                  &nbsp;
+                                  {item.source} &nbsp;
+                                  {item.vietnamese}
+                                  {item.french ? " = " : " "} {item.french}{" "}
+                                  &nbsp;
+                                  {item.english ? " = " : " "}
+                                  <span style={{ color: "#993300" }}>
+                                    {item.english}
+                                  </span>{" "}
+                                </li>
+                              ))}
+                            </ul>
+                          </p>
+                        ))}
                       </th>
                     </tr>
                   </tbody>
