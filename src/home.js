@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import {
-  Button,
   Icon,
   Container,
   Segment,
@@ -76,14 +75,6 @@ class Home extends Component {
 
             <Segment.Group>
               <Segment>
-                <Button
-                  onClick={() =>
-                    this.setState({ results: [], value: "", rumi: "" })
-                  }
-                  className="button"
-                >
-                  <Icon name="eraser" />
-                </Button>
                 <Search
                   placeholder="Search for word..."
                   size="huge"
@@ -95,6 +86,13 @@ class Home extends Component {
                   results={results}
                   value={value}
                   resultRenderer={resultRenderer}
+                />
+                <Icon
+                  onClick={() =>
+                    this.setState({ results: [], value: "", rumi: "" })
+                  }
+                  circular
+                  name="close"
                 />
               </Segment>
 
@@ -145,7 +143,7 @@ class Home extends Component {
                             </span>
                             <strong>{item.wordClasses}</strong> &nbsp;
                             {item.rumi ? " " : ""} {item.rumi}
-                            {item.akharThrah ? " " : ""}{" "}
+                            {item.akharThrah ? " " : ""}
                             <span className="cam-font">{item.akharThrah}</span>
                             &nbsp;
                             {item.source} &nbsp;
@@ -158,20 +156,19 @@ class Home extends Component {
                                 <li key={index}>
                                   <span style={{ fontStyle: "italic" }}>
                                     {item.rumi}
-                                  </span>{" "}
+                                  </span>
                                   &nbsp;
                                   <span className="cam-font">
                                     {item.akharThrah}
-                                  </span>{" "}
+                                  </span>
                                   &nbsp;
                                   {item.source} &nbsp;
                                   {item.vietnamese}
-                                  {item.french ? " = " : " "} {item.french}{" "}
-                                  &nbsp;
+                                  {item.french ? " = " : " "} {item.french}
                                   {item.english ? " = " : " "}
                                   <span style={{ color: "#993300" }}>
                                     {item.english}
-                                  </span>{" "}
+                                  </span>
                                 </li>
                               ))}
                             </ul>

@@ -1,7 +1,9 @@
 .app-title {
   text-align: center;
+  text-shadow: 1px 0 1px whitesmoke;
+
   font-size: 30px;
-  color: #500;
+  color: rgb(140, 20, 20);
   font-weight: bold;
 }
 
@@ -81,22 +83,6 @@
   text-align: left;
 }
 
-.ui.button {
-  background: black;
-  color: white;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 20px;
-  border-radius: 25px;
-  width: 80px;
-  height: 50px;
-}
-
-.ui.button:hover {
-  background: darkgrey;
-  color: black;
-}
-
 .ui.search {
   width: 100%;
   padding: 1%;
@@ -128,4 +114,26 @@ th {
 .cam-font {
   font-family: camFont;
   font-size: 1.5em;
+}
+
+.ui.icon.input > i.icon {
+  left: 0;
+}
+
+.ui.icon.input > input {
+  padding-left: 2.67em;
+}
+
+.circular.icon {
+  position: absolute;
+  opacity: 0.5;
+  box-shadow: none !important;
+  font-size: 1.2em;
+  right: 1.1em;
+  top: 1.3em;
+}
+
+.circular:hover {
+  opacity: 1;
+  background: darkgrey;
 }
