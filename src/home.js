@@ -35,6 +35,7 @@ class Home extends Component {
     axios
       .get(`${process.env.REACT_APP_BACKEND_HOST}words?search=${value}`)
       .then(response => {
+        // debugger;
         this.setState({
           isLoading: false,
           results: JSON.parse(response.data.result)
@@ -56,6 +57,7 @@ class Home extends Component {
   };
 
   setCurrentResult = result => {
+    // debugger;
     this.setState({
       ...result
     });
@@ -152,25 +154,27 @@ class Home extends Component {
                             <p style={{ color: "#993300" }}>{item.english}</p>
                             <Divider />
                             <ul>
-                              {this.state.examples.map((item, index) => (
-                                <li key={index}>
-                                  <span style={{ fontStyle: "italic" }}>
-                                    {item.rumi}
-                                  </span>
-                                  &nbsp;
-                                  <span className="cam-font">
-                                    {item.akharThrah}
-                                  </span>
-                                  &nbsp;
-                                  {item.source} &nbsp;
-                                  {item.vietnamese}
-                                  {item.french ? " = " : " "} {item.french}
-                                  {item.english ? " = " : " "}
-                                  <span style={{ color: "#993300" }}>
-                                    {item.english}
-                                  </span>
-                                </li>
-                              ))}
+                              {(this.state.examples[index] || []).map(
+                                (item, index) => (
+                                  <li key={index}>
+                                    <span style={{ fontStyle: "italic" }}>
+                                      {item.rumi}
+                                    </span>
+                                    &nbsp;
+                                    <span className="cam-font">
+                                      {item.akharThrah}
+                                    </span>
+                                    &nbsp;
+                                    {item.source} &nbsp;
+                                    {item.vietnamese}
+                                    {item.french ? " = " : " "} {item.french}
+                                    {item.english ? " = " : " "}
+                                    <span style={{ color: "#993300" }}>
+                                      {item.english}
+                                    </span>
+                                  </li>
+                                )
+                              )}
                             </ul>
                           </p>
                         ))}
